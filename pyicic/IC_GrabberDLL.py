@@ -15,7 +15,6 @@ class IC_GrabberDLL(object):
     
     GrabberHandlePtr = POINTER(structs.GrabberHandle)
 
-    os.environ['PATH'] = os.path.join(os.path.dirname(__file__), "DLLs") + ';' + os.environ['PATH']
     dll_name = "tisgrabber_x64.dll"
     _ic_grabber_dll = windll.LoadLibrary(dll_name)
 
