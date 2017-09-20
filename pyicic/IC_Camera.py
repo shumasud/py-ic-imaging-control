@@ -145,7 +145,7 @@ class IC_Camera(object):
         :param filename: string -- name of the file where to save to.
         """
         err = IC_GrabberDLL.save_device_state_to_file(self._handle,
-                                                      c_char_p(filename))
+                                                      c_char_p(filename.encode()))
         if err != 1:
             raise IC_Exception(err)
             
@@ -156,7 +156,7 @@ class IC_Camera(object):
         :param filename: string -- name of the file where to load from.
         """
         self._handle = IC_GrabberDLL.load_device_state_from_file(self._handle,
-                                                                 c_char_p(filename))
+                                                                 c_char_p(filename.encode()))
         if not self._handle:
             raise IC_Exception(todo)
         
@@ -236,7 +236,7 @@ class IC_Camera(object):
         
         :param video_format: string -- video format to use.
         """
-        err = IC_GrabberDLL.set_video_format(self._handle, c_char_p(video_format))
+        err = IC_GrabberDLL.set_video_format(self._handle, c_char_p(video_format.encode()))
         if err != 1:
             raise IC_Exception(err)
 
@@ -246,7 +246,7 @@ class IC_Camera(object):
         
         :param video_norm: string -- video norm to use.
         """
-        err = IC_GrabberDLL.set_video_norm(self._handle, c_char_p(video_norm))
+        err = IC_GrabberDLL.set_video_norm(self._handle, c_char_p(video_norm.encode()))
         if err != 1:
             raise IC_Exception(err)
     
@@ -336,7 +336,7 @@ class IC_Camera(object):
     def create_frame_filter(self, name):
         frame_filter_handle = structs.FrameFilterHandle()
         
-        err = IC_GrabberDLL.create_frame_filter(c_char_p(name), byref(frame_filter_handle))
+        err = IC_GrabberDLL.create_frame_filter(c_char_p(name.encode()), byref(frame_filter_handle))
         if err != 1:
             raise IC_Exception(err)
             
@@ -359,7 +359,7 @@ class IC_Camera(object):
     def frame_filter_set_parameter(self, frame_filter_handle, parameter_name, data):
         if type(data) is int:
             err = IC_GrabberDLL.frame_filter_set_parameter_int(frame_filter_handle,
-                                                               c_char_p(parameter_name),
+                                                               c_char_p(parameter_name.encode()),
                                                                c_int(data))
         else:
             IC_Exception('Unknown set parameter type')
@@ -486,7 +486,7 @@ class IC_Camera(object):
         :param jpeq_quality: int -- JPEG file quality, 0-100.
         """
         err = IC_GrabberDLL.save_image(self._handle,
-                                       c_char_p(filename),
+                                       c_char_p(filename.encode()),
                                        c_int(filetype),
                                        c_long(jpeq_quality))
         if err != 1:
