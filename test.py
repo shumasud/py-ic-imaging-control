@@ -29,7 +29,7 @@ cam.gain.auto = True  # enable auto gain
 
 cam.enable_continuous_mode(True)  # image in continuous mode
 cam.start_live(show_display=True)  # start imaging
-
+print(cam.get_image_description())
 cam.enable_trigger(True)  # camera will wait for trigger
 if not cam.callback_registered:
     cam.register_frame_ready_callback()  # needed to wait for frame ready callback
@@ -41,4 +41,5 @@ for i in range(10):  # take 10 shots
     cam.send_trigger()
 
     cam.wait_til_frame_ready(1000)  # wait for frame ready due to trigger
+    print(cam.get_image_data())
     cam.save_image(''.join(['image-', str(i), '.jpg']), 1)

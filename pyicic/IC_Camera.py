@@ -11,6 +11,7 @@ from .IC_GrabberDLL import IC_GrabberDLL
 from .IC_Exception import IC_Exception
 from .IC_Property import IC_Property
 from . import IC_Structures as structs
+import numpy as np
 
 
 GrabberHandlePtr = POINTER(structs.GrabberHandle)
@@ -468,14 +469,14 @@ class IC_Camera(object):
         img_ptr = self.get_image_ptr()
         data = cast(img_ptr, POINTER(c_ubyte * buffer_size))
         
-        return (data.contents, img_width, img_height, img_depth)
+        # return (data.contents, img_width, img_height, img_depth)
         
-        #img = np.ndarray(buffer = data.contents,
-        #                 dtype = np.uint8,
-        #                 shape = (img_height,
-        #                          img_width,
-        #                          img_depth))
-        #return img
+        img = np.ndarray(buffer = data.contents,
+                        dtype = np.uint8,
+                        shape = (img_height,
+                                 img_width,
+                                 img_depth))
+        return img
 
     def save_image(self, filename, filetype=1, jpeq_quality=75):
         """
